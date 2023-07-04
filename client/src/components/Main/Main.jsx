@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import Nav from "./Nav";
+import Nav from "../Nav/Nav";
+import Questions from "../Questions/Questions";
+import Replies from "../Replies/Replies";
 
 const Home = () => {
   const [thread, setThread] = useState("");
@@ -12,7 +14,9 @@ const Home = () => {
   return (
     <>
       <Nav />
-      <main className="home">
+      <Questions />
+      <Replies />
+      {/* <main className="main">
         <h2 className="homeTitle">Create a Thread</h2>
         <form className="homeForm" onSubmit={handleSubmit}>
           <div className="home__container">
@@ -27,7 +31,7 @@ const Home = () => {
           </div>
           <button className="homeBtn">CREATE THREAD</button>
         </form>
-      </main>
+      </main> */}
     </>
   );
 };

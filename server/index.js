@@ -14,7 +14,37 @@ app.use(cors());
 
 const client = new MongoClient(URI);
 
-app.gnpet('/', async (req, res) => {
+app.post('/login', async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection('Login')
+      .insertOne({ name, password, ownerId: new ObjectId(req.body.ownerId) });
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post('/registered', async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection('Registered')
+      .insertOne({ name, password, ownerId: new ObjectId(req.body.ownerId) });
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get('/questions', async (req, res) => {
   try {
     const con = await client.connect();
     const data = await con.db(dbName).collection('Questions').find().toArray();
@@ -25,18 +55,38 @@ app.gnpet('/', async (req, res) => {
   }
 });
 
-app.post('/', async (req, res) => {
+app.get('/answers', async (req, res) => {
   try {
-    const { type, name } = req.body;
     const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection('Questions')
-      .insertOne({ type, name, ownerId: new ObjectId(req.body.ownerId) });
+    const data = await con.db(dbName).collection('Answers').find().toArray();
     await con.close();
     res.send(data);
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+app.delete('/answers/:id', (req, res) => {
+  const index = answers.findIndex(
+    (item) => item.id === parseInt(req.params.id),
+  );
+  if (index === -1) {
+    res.status(404).send('Answer not found');
+  } else {
+    answers.splice(index, 1);
+    res.send('Answer removed');
+  }
+});
+
+app.delete('/questions/:id', (req, res) => {
+  const index = questions.findIndex(
+    (item) => item.id === parseInt(req.params.id),
+  );
+  if (index === -1) {
+    res.status(404).send('Question not found');
+  } else {
+    questions.splice(index, 1);
+    res.send('Question removed');
   }
 });
 
