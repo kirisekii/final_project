@@ -12,17 +12,17 @@ const Answers = (props) => {
   };
 
   return (
-    <div>
-      <a href="#" onClick={toggleAnswers}>
+    <div className="container">
+      <a href="#" onClick={toggleAnswers} className="link">
         {open ? "Hide answers" : "Show answers"}
       </a>
       {open &&
         answers.map((answer) => (
-          <div key={answer._id}>
-            <p>Content: {answer.content}</p>
+          <div className="answer" key={answer._id}>
+            <p className="content">Content: {answer.content}</p>
           </div>
         ))}
-      {open && <AnswerCreateForm question={question} />}
+      {open && <AnswerCreateForm question={question} className="form" />}
     </div>
   );
 };

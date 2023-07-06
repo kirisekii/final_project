@@ -11,7 +11,7 @@ import { UserProvider } from "./components/userContext";
 import Login from "./components/login";
 import Register from "./components/register";
 import Dashboard from "./components/Dashboard/dashboard";
-import Question from "./components/question";
+import Question from "./components/Question/question";
 
 const App = () => {
   return (
