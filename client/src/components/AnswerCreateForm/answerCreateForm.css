@@ -1,26 +1,30 @@
-.container {
-  max-width: 600px;
+/* AnswerCreateForm.css */
+
+/* Style for the form container */
+.form-container {
+  max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.label {
-  font-weight: bold;
-}
-
-.input {
-  padding: 8px;
+  background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
+/* Style for the form label */
+.label {
+  font-weight: bold;
+}
+
+/* Style for the form input */
+.input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Style for the form submit button */
 .button {
   padding: 8px 16px;
   background-color: #007bff;
@@ -32,17 +36,4 @@
 
 .button:hover {
   background-color: #0056b3;
-}
-
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.question {
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 4px;
-  background-color: #f9f9f9;
 }

@@ -10,7 +10,7 @@ import {
 import { UserProvider } from "./components/userContext";
 import Login from "./components/login";
 import Register from "./components/register";
-import Dashboard from "./components/dashboard";
+import Dashboard from "./components/Dashboard/dashboard";
 import Question from "./components/question";
 
 const App = () => {

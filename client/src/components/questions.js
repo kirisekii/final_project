@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import "./Dashboard/dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
@@ -8,11 +9,11 @@ const Questions = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch('http://localhost:8081/questions');
+        const response = await fetch("http://localhost:8081/questions");
         const data = await response.json();
         setQuestions(data);
       } catch (error) {
-        console.error('Error fetching questions:', error);
+        console.error("Error fetching questions:", error);
       }
     };
 
@@ -21,13 +22,18 @@ const Questions = () => {
 
   const showQuestion = (questionId) => {
     navigate(`/questions/${questionId}`);
-  }
+  };
 
   return (
-    <div>
-      <h1>Questions</h1>
+    <div className="questions-section">
+      <h1 className="heading">Questions</h1>
       {questions.map((question) => (
-        <div key={question._id} onClick={() => { showQuestion(question._id) }}>
+        <div
+          key={question._id}
+          onClick={() => {
+            showQuestion(question._id);
+          }}
+        >
           <h3>Title: {question.title}</h3>
           <p>Content: {question.content}</p>
           <hr />

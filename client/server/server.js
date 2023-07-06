@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3002", // Replace with the origin of your React app
+  origin: "http://localhost:3000", // Replace with the origin of your React app
   credentials: true,
 };
 

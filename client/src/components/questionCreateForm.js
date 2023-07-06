@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Dashboard/dashboard.css";
 
 const QuestionCreateForm = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -12,46 +13,54 @@ const QuestionCreateForm = () => {
     const newQuestion = { title: title, content: content };
 
     try {
-      const response = await fetch('http://localhost:8081/questions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:8081/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newQuestion),
-        credentials: 'include'
+        credentials: "include",
       });
 
       if (response.ok) {
-        console.log('Question created');
-        navigate('/dashboard');
+        console.log("Question created");
+        navigate("/dashboard");
       } else {
-        console.log('Question creation failed');
+        console.log("Question creation failed");
       }
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
-    React.createElement('form', { onSubmit: handleSubmit },
-      React.createElement('div', null,
-        React.createElement('label', { htmlFor: 'title' }, 'Title:'),
-        React.createElement('input', {
-          type: 'text',
-          id: 'title',
-          value: title,
-          onChange: (e) => setTitle(e.target.value)
-        })
-      ),
-      React.createElement('div', null,
-        React.createElement('label', { htmlFor: 'content' }, 'Content:'),
-        React.createElement('input', {
-          type: 'text',
-          id: 'content',
-          value: content,
-          onChange: (e) => setContent(e.target.value)
-        })
-      ),
-      React.createElement('button', { type: 'submit' }, 'Create')
-    )
+    <form onSubmit={handleSubmit} className="question-create-form">
+      <div>
+        <label htmlFor="title" className="label">
+          Title:
+        </label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="input"
+        />
+      </div>
+      <div>
+        <label htmlFor="content" className="label">
+          Content:
+        </label>
+        <input
+          type="text"
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="input"
+        />
+      </div>
+      <button type="submit" className="button">
+        Create
+      </button>
+    </form>
   );
 };
 
