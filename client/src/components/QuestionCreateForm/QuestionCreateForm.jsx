@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard/dashboard.css";
+import "../Dashboard/Dashboard.css";
 
 const QuestionCreateForm = () => {
   const [title, setTitle] = useState("");

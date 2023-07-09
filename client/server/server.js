@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with the origin of your React app
+  origin: "http://localhost:3000",
   credentials: true,
 };
 
@@ -21,8 +21,8 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false, // Set to true if using HTTPS
-      maxAge: 1000 * 60 * 60 * 24, // Session expiration time (e.g., 1 day)
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -208,6 +208,45 @@ app.patch("/questions/:id", async (req, res) => {
   }
 });
 
+app.put("/questions/:id", async (req, res) => {
+  const questionId = req.params.id;
+  const userId = req.session.userId;
+  const { title, content } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    await client.connect();
+    const db = client.db("test");
+    const collection = db.collection("questions");
+    const filter = {
+      _id: new ObjectId(questionId),
+      userId: new ObjectId(userId),
+    };
+    const update = {
+      $set: {
+        title,
+        content,
+        updatedAt: new Date(),
+      },
+    };
+
+    const result = await collection.updateOne(filter, update);
+
+    if (result.modifiedCount === 0) {
+      res.status(404).json({ message: "Error" });
+    } else {
+      res.json({ message: "Updated" });
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+});
+
 app.delete("/questions/:id", async (req, res) => {
   const questionId = req.params.id;
   const userId = req.session.userId;
@@ -220,7 +259,10 @@ app.delete("/questions/:id", async (req, res) => {
     await client.connect();
     const db = client.db("test");
     const collection = db.collection("questions");
-    const filter = { _id: ObjectId(questionId), userId: ObjectId(userId) };
+    const filter = {
+      _id: new ObjectId(questionId.length),
+      userId: new ObjectId(userId.length),
+    };
     const result = await collection.deleteOne(filter);
 
     if (result.deletedCount === 0) {

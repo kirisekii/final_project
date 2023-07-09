@@ -7,11 +7,12 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { UserProvider } from "./components/userContext";
-import Login from "./components/login";
-import Register from "./components/register";
-import Dashboard from "./components/Dashboard/dashboard";
-import Question from "./components/Question/question";
+import { UserProvider } from "./components/UserContext/UserContext";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Question from "./components/Question/Question";
+import QuestionEdit from "./components/QuestionEdit/QuestionEdit";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/questions/:questionId" element={<Question />} />
+          <Route path="/questions/:id/edit" element={<QuestionEdit />} />
         </Routes>
       </Router>
     </UserProvider>

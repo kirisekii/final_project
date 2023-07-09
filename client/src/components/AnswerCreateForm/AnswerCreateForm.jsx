@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./answerCreateForm.css";
 import { useNavigate } from "react-router-dom";
+import "./AnswerCreateForm.css";
 
 const AnswerCreateForm = (props) => {
   const questionId = props.questionId;
@@ -26,7 +26,6 @@ const AnswerCreateForm = (props) => {
       if (response.ok) {
         console.log("Answer created");
         window.location.reload();
-        // navigate(`/questions/${questionId}`);
       } else {
         console.log("Answer creation failed");
       }
@@ -35,21 +34,24 @@ const AnswerCreateForm = (props) => {
     }
   };
 
-  return React.createElement(
-    "form",
-    { onSubmit: handleSubmit },
-    React.createElement(
-      "div",
-      null,
-      React.createElement("label", { htmlFor: "content" }, "Reply:"),
-      React.createElement("input", {
-        type: "text",
-        id: "content",
-        value: content,
-        onChange: (e) => setContent(e.target.value),
-      })
-    ),
-    React.createElement("button", { type: "submit" }, "Create")
+  return (
+    <form className="form-container" onSubmit={handleSubmit}>
+      <div>
+        <label className="label" htmlFor="content">
+          Reply:
+        </label>
+        <input
+          className="input"
+          type="text"
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </div>
+      <button className="button" type="submit">
+        Create
+      </button>
+    </form>
   );
 };
 

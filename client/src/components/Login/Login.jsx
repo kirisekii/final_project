@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import UserContext from "./userContext";
+import { useNavigate, Link } from "react-router-dom";
+import UserContext from "../UserContext/UserContext";
+import "./Login.css";
 
 const Login = () => {
   const { login } = useContext(UserContext);
@@ -37,33 +37,32 @@ const Login = () => {
     }
   };
 
-  return React.createElement(
-    "form",
-    { onSubmit: handleSubmit },
-    React.createElement(
-      "div",
-      null,
-      React.createElement("label", { htmlFor: "username" }, "Username:"),
-      React.createElement("input", {
-        type: "text",
-        id: "username",
-        value: username,
-        onChange: (e) => setUsername(e.target.value),
-      })
-    ),
-    React.createElement(
-      "div",
-      null,
-      React.createElement("label", { htmlFor: "password" }, "Password:"),
-      React.createElement("input", {
-        type: "password",
-        id: "password",
-        value: password,
-        onChange: (e) => setPassword(e.target.value),
-      })
-    ),
-    React.createElement("button", { type: "submit" }, "Login"),
-    <Link to="/register">Create account</Link>
+  return (
+    <div className="container">
+      <form className="form" onSubmit={handleSubmit}>
+        <div>
+          <h2>Welcome back! Please, log in</h2>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+        <Link to="/register">Create account</Link>
+      </form>
+    </div>
   );
 };
 

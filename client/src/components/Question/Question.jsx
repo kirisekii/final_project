@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import AnswerCreateForm from "../AnswerCreateForm/answerCreateForm";
+import AnswerCreateForm from "../AnswerCreateForm/AnswerCreateForm";
 import { useParams } from "react-router-dom";
-import "./Question.css"; // Import the CSS file
+import "./Question.css";
 
 const Question = () => {
   const [answers, setAnswers] = useState([]);
@@ -53,6 +53,9 @@ const Question = () => {
             <td>{answer.dislikedUsersIds.length}</td>
             <td>
               {new Date(answer.createdAt).toLocaleTimeString([], {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
               })}
