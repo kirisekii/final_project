@@ -84,11 +84,12 @@ app.get("/questions", async (req, res) => {
   const sortBy = req.query.sortBy;
   const sortOrder = req.query.sortOrder;
   const filterOption = req.query.filter;
-  const userId = req.session.userId;
+  console.log(sortBy);
+  // const userId = req.session.userId;
 
-  if (!userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+  // if (!userId) {
+  //   return res.status(401).json({ message: "Unauthorized" });
+  // }
 
   try {
     await client.connect();

@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [sortBy, setSortBy] = useState(""); // State to track the sorting option
 
   const handleSort = (option) => {
+    console.log(option);
     setSortBy(option);
   };
 
@@ -15,11 +16,18 @@ const Dashboard = () => {
       <div className="sort-button-container">
         <button
           className="sort-button"
-          onClick={() => handleSort("answerCount")}
+          onClick={() => {
+            handleSort("answerCount");
+          }}
         >
           Sort by Answer Count
         </button>
-        <button className="sort-button" onClick={() => handleSort("createdAt")}>
+        <button
+          className="sort-button"
+          onClick={() => {
+            handleSort("createdAt");
+          }}
+        >
           Sort by Creation Date
         </button>
       </div>

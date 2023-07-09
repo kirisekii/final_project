@@ -6,7 +6,7 @@ const Questions = (props) => {
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
   const sortBy = props.sortBy;
-
+  console.log(sortBy);
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -14,6 +14,7 @@ const Questions = (props) => {
           `http://localhost:8081/questions?sortBy=${sortBy}`
         );
         const data = await response.json();
+        console.log(data);
         setQuestions(data || []);
       } catch (error) {
         console.error("Error fetching questions:", error);
