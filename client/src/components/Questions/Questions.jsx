@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Questions.css";
 
-const Questions = () => {
+const Questions = (props) => {
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
+  const sortBy = props.sortBy;
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("http://localhost:8081/questions");
+        const response = await fetch(
+          `http://localhost:8081/questions?sortBy=${sortBy}`
+        );
         const data = await response.json();
-        setQuestions(data);
+        setQuestions(data || []);
       } catch (error) {
         console.error("Error fetching questions:", error);
       }
@@ -57,6 +60,7 @@ const Questions = () => {
       {questions.map((question) => (
         <div key={question._id} className="question-container">
           <h3>Title: {question.title}</h3>
+          {question.createdAt !== question.updatedAt && <span>(Edited)</span>}
           <p>Content: {question.content}</p>
           <button
             className="btn-style"

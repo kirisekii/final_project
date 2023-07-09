@@ -4,7 +4,7 @@ import "./Answers.css";
 
 const Answers = (props) => {
   const question = props.question;
-  const answers = question.answers;
+  const answers = question.answers || [];
   const [open, setOpen] = useState(false);
 
   const toggleAnswers = () => {

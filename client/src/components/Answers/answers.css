@@ -1,26 +1,20 @@
+.container {
+  margin-top: 20px;
+}
+
 .link {
   display: block;
   margin-bottom: 10px;
+  font-weight: bold;
   color: #007bff;
   text-decoration: none;
   cursor: pointer;
 }
 
-.link:hover {
-  text-decoration: underline;
-}
-
 .answer {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .content {
-  font-weight: bold;
-}
-
-.form {
-  margin-top: 10px;
-  width: 80vw;
+  font-size: 14px;
 }

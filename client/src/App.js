@@ -19,12 +19,15 @@ const App = () => {
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/questions/:questionId" element={<Question />} />
-          <Route path="/questions/:id/edit" element={<QuestionEdit />} />
+          <Route
+            path="/questions/:questionId/edit"
+            element={<QuestionEdit />}
+          />
         </Routes>
       </Router>
     </UserProvider>

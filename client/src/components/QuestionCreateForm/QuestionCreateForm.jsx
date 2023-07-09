@@ -1,28 +1,30 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../Dashboard/Dashboard.css";
+import { useNavigate, Link } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+import "./QuestionCreateForm.css";
 
 const QuestionCreateForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newQuestion = { title: title, content: content };
 
     try {
       const response = await fetch("http://localhost:8081/questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newQuestion),
+        body: JSON.stringify({ title, content }),
         credentials: "include",
       });
 
       if (response.ok) {
         console.log("Question created");
         navigate("/dashboard");
+      } else if (response.status === 401) {
+        setShowAlert(true);
       } else {
         console.log("Question creation failed");
       }
@@ -33,6 +35,12 @@ const QuestionCreateForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="question-create-form">
+      {showAlert && (
+        <Alert variant="warning">
+          Only logged-in users can ask a question.{" "}
+          <Link to="/login">Log in</Link>
+        </Alert>
+      )}
       <div>
         <label htmlFor="title" className="label">
           Title:

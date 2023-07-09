@@ -81,12 +81,12 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/questions", async (req, res) => {
-  const sortOption = req.query.sortBy;
-  const sortOder = req.query.sortOrder;
+  const sortBy = req.query.sortBy;
+  const sortOrder = req.query.sortOrder;
   const filterOption = req.query.filter;
   const userId = req.session.userId;
 
-  if (!!userId) {
+  if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -117,11 +117,11 @@ app.get("/questions", async (req, res) => {
       queryOptions.push({ $match: { answerCount: { $eq: 0 } } });
     }
 
-    if (sortOption === "answerCount") {
+    if (sortBy === "answerCount") {
       queryOptions.push({
         $sort: { answerCount: sortOrder === "asc" ? 1 : -1 },
       });
-    } else if (sortOption === "createdAt") {
+    } else if (sortBy === "createdAt") {
       queryOptions.push({ $sort: { createdAt: sortOrder === "asc" ? 1 : -1 } });
     }
 
@@ -176,7 +176,7 @@ app.patch("/questions/:id", async (req, res) => {
   const questionId = req.params.id;
   const userId = req.session.userId;
 
-  if (!!userId) {
+  if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -184,7 +184,7 @@ app.patch("/questions/:id", async (req, res) => {
     await client.connect();
     const db = client.db("test");
     const collection = db.collection("questions");
-    const filter = { _id: ObjectId(questionId), userId: ObjectId(userId) };
+    const filter = { _id: new ObjectId(questionId), userId: userId };
 
     const update = {
       $set: {
@@ -260,8 +260,8 @@ app.delete("/questions/:id", async (req, res) => {
     const db = client.db("test");
     const collection = db.collection("questions");
     const filter = {
-      _id: new ObjectId(questionId.length),
-      userId: new ObjectId(userId.length),
+      _id: new ObjectId(questionId),
+      // userId: new ObjectId(userId),
     };
     const result = await collection.deleteOne(filter);
 
@@ -346,15 +346,11 @@ app.post("/answers/:id/like", async (req, res) => {
     const answer = await collection.findOne({ _id: new ObjectId(answerId) });
     console.log(answer);
     const likedUsersIds = answer.likedUsersIds.concat(userId);
-    const dislikedUsersIds = answer.dislikedUsersIds.filter(
-      (id) => id !== userId
-    );
-
     const filter = { _id: new ObjectId(answerId) };
     const update = {
       $set: {
         likedUsersIds: likedUsersIds,
-        dislikedUsersIds: dislikedUsersIds,
+        dislikedUsersIds: answer.dislikedUsersIds,
         updatedAt: new Date(),
       },
     };
@@ -383,12 +379,11 @@ app.post("/answers/:id/dislike", async (req, res) => {
     const answer = await collection.findOne({ _id: new ObjectId(answerId) });
     console.log(answer);
     const dislikedUsersIds = answer.dislikedUsersIds.concat(userId);
-    const likedUsersIds = answer.likedUsersIds.filter((id) => id !== userId);
 
     const filter = { _id: new ObjectId(answerId) };
     const update = {
       $set: {
-        likedUsersIds: likedUsersIds,
+        likedUsersIds: answer.likedUsersIds,
         dislikedUsersIds: dislikedUsersIds,
         updatedAt: new Date(),
       },

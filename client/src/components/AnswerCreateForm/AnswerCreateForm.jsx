@@ -10,6 +10,11 @@ const AnswerCreateForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (content.length < 2) {
+      alert("Type something!");
+      return;
+    }
+
     const newAnswer = { content: content };
 
     try {

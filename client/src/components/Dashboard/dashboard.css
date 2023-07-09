@@ -1,18 +1,36 @@
-.container {
+.dash-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  margin: 20px;
+}
+
+.sort-button-container {
+  margin-bottom: 20px;
+}
+
+.sort-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 .questions-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .question-create-form-section {
-  margin-top: 20px;
+  width: 400px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
 }
