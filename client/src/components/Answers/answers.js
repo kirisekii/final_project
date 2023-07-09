@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AnswerCreateForm from "../AnswerCreateForm/answerCreateForm";
-import "./answers.css";
+import AnswerCreateForm from "../AnswerCreateForm/AnswerCreateForm.jsx";
+import "./Answers.css";
 
 const Answers = (props) => {
   const question = props.question;

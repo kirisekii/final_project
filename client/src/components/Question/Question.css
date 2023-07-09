@@ -1,9 +1,10 @@
 .question-container {
-  margin-top: 20px;
+  margin: 100px auto;
+  width: 70vw;
 }
 
 .answers-table {
-  width: 100%;
+  width: 70vw;
   border-collapse: collapse;
 }
 
