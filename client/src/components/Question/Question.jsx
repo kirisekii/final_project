@@ -6,13 +6,11 @@ import "./Question.css";
 
 const Question = () => {
   const [answers, setAnswers] = useState([]);
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-
   const { questionId } = useParams();
 
   useEffect(() => {
     const fetchAnswers = async () => {
+      setAnswers([]);
       try {
         const response = await fetch(
           `http://localhost:8081/questions/${questionId}/answers`,
@@ -42,8 +40,8 @@ const Question = () => {
           </tr>
         </thead>
         <tbody>
-          {answers.map((answer) => (
-            <Answer answer={answer} />
+          {(answers || []).map((answer) => (
+            <Answer key={answer._id} answer={answer} />
           ))}
         </tbody>
       </table>

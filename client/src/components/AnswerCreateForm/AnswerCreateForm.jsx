@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+
 import "./AnswerCreateForm.css";
 
 const AnswerCreateForm = (props) => {
   const questionId = props.questionId;
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const [showLikeAlert, setShowLikeAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +34,8 @@ const AnswerCreateForm = (props) => {
       if (response.ok) {
         console.log("Answer created");
         window.location.reload();
+      } else if (response.status === 401) {
+        setShowLikeAlert(true);
       } else {
         console.log("Answer creation failed");
       }
@@ -41,6 +46,12 @@ const AnswerCreateForm = (props) => {
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
+      {showLikeAlert && (
+        <Alert variant="warning" className="delete-alert">
+          Only logged-in users can like an answer.{" "}
+          <Link to="/login">Log in</Link>
+        </Alert>
+      )}
       <div>
         <label className="label" htmlFor="content">
           Reply:

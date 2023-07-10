@@ -1,5 +1,6 @@
 import "./App.css";
 import React from "react";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -13,11 +14,15 @@ import Register from "./components/Register/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Question from "./components/Question/Question";
 import QuestionEdit from "./components/QuestionEdit/QuestionEdit";
+import Nav from "./components/Nav/Nav";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
     <UserProvider>
       <Router>
+        <Nav />
+
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
@@ -29,6 +34,7 @@ const App = () => {
             element={<QuestionEdit />}
           />
         </Routes>
+        <Footer />
       </Router>
     </UserProvider>
   );

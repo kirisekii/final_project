@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 import "./Questions.css";
 
 const Questions = (props) => {
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
   const sortBy = props.sortBy;
-  console.log(sortBy);
+  const [showAlert, setShowAlert] = useState(false);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -22,7 +24,7 @@ const Questions = (props) => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [sortBy]);
 
   const showQuestion = (questionId) => {
     navigate(`/questions/${questionId}`);
@@ -42,9 +44,8 @@ const Questions = (props) => {
         setQuestions((prevQuestions) =>
           prevQuestions.filter((question) => question._id !== questionId)
         );
-        console.log(data.message);
       } else {
-        console.error("Error deleting question:", data.message);
+        setShowAlert(true);
       }
     } catch (error) {
       console.error("Error deleting question:", error);
@@ -58,6 +59,12 @@ const Questions = (props) => {
   return (
     <div className="questions-section">
       <h1 className="heading">Questions</h1>
+      {showAlert && (
+        <Alert variant="warning">
+          Only logged-in users can delete a question.{" "}
+          <Link to="/login">Log in</Link>
+        </Alert>
+      )}
       {questions.map((question) => (
         <div key={question._id} className="question-container">
           <h3>Title: {question.title}</h3>
@@ -67,7 +74,7 @@ const Questions = (props) => {
             className="btn-style"
             onClick={() => showQuestion(question._id)}
           >
-            View
+            Answer
           </button>
           <button
             className="btn-style"

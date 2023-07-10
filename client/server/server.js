@@ -85,11 +85,6 @@ app.get("/questions", async (req, res) => {
   const sortOrder = req.query.sortOrder;
   const filterOption = req.query.filter;
   console.log(sortBy);
-  // const userId = req.session.userId;
-
-  // if (!userId) {
-  //   return res.status(401).json({ message: "Unauthorized" });
-  // }
 
   try {
     await client.connect();
@@ -284,9 +279,9 @@ app.get("/questions/:id/answers", async (req, res) => {
 
   console.log("answers");
   console.log(userId);
-  if (!userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+  // if (!userId) {
+  //   return res.status(401).json({ message: "Unauthorized" });
+  // }
 
   try {
     await client.connect();
@@ -346,14 +341,12 @@ app.post("/answers/:id/like", async (req, res) => {
     const collection = db.collection("answers");
     const answer = await collection.findOne({ _id: new ObjectId(answerId) });
     console.log(answer);
-    const likedUsersIds = answer.likedUsersIds.concat(userId);
+
+    const likedUsersIds = answer.likedUsersIds || [];
     const filter = { _id: new ObjectId(answerId) };
     const update = {
-      $set: {
-        likedUsersIds: likedUsersIds,
-        dislikedUsersIds: answer.dislikedUsersIds,
-        updatedAt: new Date(),
-      },
+      $push: { likedUsersIds: userId },
+      $set: { likedUsersIds: likedUsersIds, updatedAt: new Date() },
     };
     const result = await collection.updateOne(filter, update);
 
@@ -379,15 +372,12 @@ app.post("/answers/:id/dislike", async (req, res) => {
     const collection = db.collection("answers");
     const answer = await collection.findOne({ _id: new ObjectId(answerId) });
     console.log(answer);
-    const dislikedUsersIds = answer.dislikedUsersIds.concat(userId);
 
+    const dislikedUsersIds = answer.dislikedUsersIds || [];
     const filter = { _id: new ObjectId(answerId) };
     const update = {
-      $set: {
-        likedUsersIds: answer.likedUsersIds,
-        dislikedUsersIds: dislikedUsersIds,
-        updatedAt: new Date(),
-      },
+      $push: { dislikedUsersIds: userId },
+      $set: { dislikedUsersIds: dislikedUsersIds, updatedAt: new Date() },
     };
     const result = await collection.updateOne(filter, update);
 
@@ -413,7 +403,9 @@ app.patch("/answers/:id", async (req, res) => {
     const db = client.db("test");
     const collection = db.collection("answers");
 
-    const filter = { _id: ObjectId(answerId) };
+    const filter = {
+      _id: new ObjectId(answerId),
+    };
     const update = {
       $set: { content, likedUsersIds, dislikedUsersIds, updatedAt: new Date() },
     };
@@ -424,7 +416,6 @@ app.patch("/answers/:id", async (req, res) => {
     } else {
       res.json({ message: "Updated" });
     }
-    res.json(answer);
   } catch (err) {
     console.log(err);
   } finally {
@@ -451,6 +442,38 @@ app.delete("/answers/:id", async (req, res) => {
       res.status(404).json({ message: "Error" });
     } else {
       res.json({ message: "Deleted" });
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+});
+
+app.patch("/answers/:id", async (req, res) => {
+  const answerId = req.params.id;
+  const userId = req.session.userId;
+  const { content } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    await client.connect();
+    const db = client.db("test");
+    const collection = db.collection("answers");
+
+    const filter = { _id: ObjectId(answerId), userId: ObjectId(userId) };
+    const update = {
+      $set: { content, updatedAt: new Date() },
+    };
+    const result = await collection.updateOne(filter, update);
+
+    if (result.modifiedCount === 0) {
+      res.status(404).json({ message: "Error" });
+    } else {
+      res.json({ message: "Updated" });
     }
   } catch (err) {
     console.log(err);

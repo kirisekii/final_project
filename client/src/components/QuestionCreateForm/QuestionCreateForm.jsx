@@ -21,7 +21,6 @@ const QuestionCreateForm = () => {
       });
 
       if (response.ok) {
-        console.log("Question created");
         navigate("/dashboard");
       } else if (response.status === 401) {
         setShowAlert(true);
